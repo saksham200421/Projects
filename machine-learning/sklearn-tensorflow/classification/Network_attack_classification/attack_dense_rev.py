@@ -43,15 +43,10 @@ from sklearn.metrics import accuracy_score
 
 ### Data Importing
 
-We use the `pandas` library to load the dataset from an Excel workbook into a DataFrame.
+We use the `pandas` library to load the dataset from a Parquet file into a DataFrame.
 """
 
-data=pd.read_excel('C:/Users/saksh/Downloads/network attack dataset.xlsx')
-count=0
-for i in range(0, len(data), 50000):
-    chunk = data.iloc[i:i+50000]
-    chunk.to_parquet(f'C:/Users/saksh/Desktop/Network_attack_classification/data_file_{count}.parquet')
-    count += 1
+data=pd.read_parquet('data_file_0.parquet')
 
 """---
 
