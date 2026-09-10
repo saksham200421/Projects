@@ -15,7 +15,7 @@ Early detection of fire is critical for preventing property damage and loss of l
 
 | Class | Meaning | Source prefixes |
 |---|---|---|
-| `0` | Fire and/or smoke present (single-hazard) | `Fire`, `Smoke` |
+| `0` | smoke present | `Smoke` |
 | `1` | Both fire and smoke present | `FireAndSmoke` |
 | `2` | No fire or smoke | `NeitherFireNorSmoke` |
 
@@ -73,7 +73,7 @@ Evaluated on FASDD_CV's held-out validation split (15,884 images):
 
 | Class | Precision | Recall | F1 | Support |
 |---|---|---|---|---|
-| 0 — Fire/Smoke | 0.93 | 0.95 | 0.94 | 5,993 |
+| 0 — Smoke | 0.93 | 0.95 | 0.94 | 5,993 |
 | 1 — Both | 0.92 | 0.89 | 0.91 | 3,358 |
 | 2 — Neither | 0.99 | 0.99 | 0.99 | 6,533 |
 
@@ -146,5 +146,5 @@ class_id = pred.argmax(axis=1)[0]
 
 ## Acknowledgments
 
-- Dataset: Wang, M., Yue, P., Jiang, L., Yu, D., Tuo, T., & Li, J. — *FASDD: An Open-access 100,000-level Flame and Smoke Detection Dataset for Deep Learning in Fire Detection*.
-- Backbone: EfficientNetB4 (ImageNet-pretrained), via `tf.keras.applications`.
+- Dataset: *FASDD: An Open-access 100,000-level Flame and Smoke Detection Dataset for Deep Learning in Fire Detection*.
+- Backbone: EfficientNetB4 , via `tf.keras.applications`.
