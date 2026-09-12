@@ -6,7 +6,7 @@ The end goal of this project is a lightweight scene classifier that can sit behi
 
 ## Hosted
 
-**[Predict Fire](https://fire-detection-api-htan.onrender.com/predict)** - The model is first containerized using docker and published at docker repository and then hosted using render as a API service. The image can be attached in the `form-data` of the request and the service might take 1-2 minutes to wake up due to free tier restrictions. Only one image can be sent for prediction per request
+**[Predict Fire](https://fire-detection-api-htan.onrender.com/predict)** - The model is first containerized using docker and published at docker repository and then hosted using render as a API service. The image can be attached in the `form-data` of the request and service might take 1-2 minutes to wake up due to free tier restrictions. Only one image can be sent per request
 
 ## Problem
 
