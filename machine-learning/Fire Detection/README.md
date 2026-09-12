@@ -4,9 +4,13 @@ A transfer-learning image classifier that identifies whether a scene contains fi
 
 The end goal of this project is a lightweight scene classifier that can sit behind a live camera feed and raise an alert when fire is detected — this notebook covers the model training and evaluation stage.
 
+##Hosted
+
+**[Predict Fire](https://fire-detection-api-htan.onrender.com/predict)** - The model is first containerized using docker and published at docker repository and then hosted using render as a API service. The image can be attached in the `form-data` of the request and the service might take 1-2 minutes to wake up due to free tier restrictions. Only one image can be sent for prediction per request
+
 ## Problem
 
-Early detection of fire is critical for preventing property damage and loss of life. Rather than training a CNN from scratch (which needs a large labeled dataset and heavy compute), this project uses transfer learning on an ImageNet-pretrained EfficientNetB4 backbone, adapting it to fire/smoke scene classification with a much smaller compute budget.
+Early detection of fire is critical for preventing property damage and loss of life. Rather than training a CNN from scratch (which needs a large labeled dataset and heavy compute), this project uses transfer learning on an ImageNet-pretrained EfficientNetB4 backbone, adapting it to fire/smoke scene classification.
 
 ## Dataset
 
@@ -52,14 +56,14 @@ Last 40 layers of the backbone unfrozen; rest stays frozen.
 - Result: train accuracy 99.2%, val accuracy 95.4% (train/val gap widens in later epochs — some overfitting as fine-tuning progresses)
 
 Both phases use:
-- `ModelCheckpoint` — saves `best_model.keras`, keeping the checkpoint with the lowest `val_loss` (this is not necessarily the final epoch, since val_loss starts climbing again after fine-tuning kicks in)
+- `ModelCheckpoint` — saves `best_model.keras`, keeping the checkpoint with the lowest `val_loss`
 - `ReduceLROnPlateau` — halves the learning rate if `val_loss` plateaus for 5 epochs
 
 The fully trained model (final-epoch weights) is separately exported as `EfficientNetB4_fd.keras`.
 
 ## Results
 
-Evaluated on FASDD_CV's held-out validation split (15,884 images):
+Evaluated on FASDD_CV's validation split (15,884 images):
 
 | Metric | Score |
 |---|---|
@@ -85,16 +89,15 @@ Evaluated on FASDD_CV's held-out validation split (15,884 images):
 | **Actual 1** | 340 | 3,003 | 15 |
 | **Actual 2** | 62 | 9 | 6,462 |
 
-Class 1 ("both fire and smoke") is the hardest to separate, most often confused with class 0 — expected, since both classes contain fire and/or smoke. Class 2 ("neither") is classified almost perfectly.
+Class 1 ("both fire and smoke") is the hardest to separate, most often confused with class 0 , since both classes contain fire and/or smoke. Class 2 ("neither") is classified almost perfectly.
 
-For context, this model substantially outperforms an earlier 3-block CNN trained from scratch on the same data, which reached ~65% accuracy.
+For context, this model substantially outperforms an earlier 4-block CNN trained from scratch on the same data, which reached ~75% accuracy.
 
 ## Repo structure
 
 ```
 .
 ├── fire_detection.ipynb   # data pipeline, model training (both phases), evaluation
-├── best_model.keras       # checkpoint with lowest val_loss (saved during training)
 ├── EfficientNetB4_fd.keras # final-epoch trained model
 └── README.md
 ```
@@ -146,5 +149,5 @@ class_id = pred.argmax(axis=1)[0]
 
 ## Acknowledgments
 
-- Dataset: *FASDD: An Open-access 100,000-level Flame and Smoke Detection Dataset for Deep Learning in Fire Detection*.
+- Dataset: *FASDD: An Open-access 100,000+ image Fire and Smoke Detection Dataset for Deep Learning in Fire Detection*.
 - Backbone: EfficientNetB4 , via `tf.keras.applications`.
